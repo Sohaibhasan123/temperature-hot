@@ -29,7 +29,7 @@
             </div>
         </form>
         <div class="weather-status text-white text-center">
-            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="" id="icon">
             <h1 id="city">Dhaka</h1>
             <h3><span id="temp">38.06</span>&deg;C</h3>
             <h1 class="lead" id="weather">Clouds</h1>
@@ -56,6 +56,9 @@
                document.getElementById("city").innerText=CityfinalName;
                const Overcast=json.weather[0].main;
                document.getElementById("weather").innerText=Overcast;
+               const icon=json.weather[0].icon;
+               document.getElementById("icon").src=`http://openweathermap.org/img/wn/${icon}@2x.png`;
+
 
            })
        })
