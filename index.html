@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input type="text" id="city-input"class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button type="button" id="search" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1 id="city">Dhaka</h1>
+            <h3><span id="temp">38.06</span>&deg;C</h3>
+            <h1 class="lead" id="weather">Clouds</h1>
+        </div>
+    </div>
+<script>
+   document.getElementById("search").addEventListener('click',()=>{
+       const cityName=document.getElementById("city-input").value;
+       fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=8bb9b57f18f8d261cdc3adcc4e17b2eb`)
+       .then(res=>res.json())
+       .then(data=>{
+           const lat=data[0].lat;
+           const lon=data[0].lon;
+           const CityfinalName=data[0].name;
+           fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=8bb9b57f18f8d261cdc3adcc4e17b2eb`)
+           .then(res=>res.json())
+           .then(json=>{
+               console.log(json);
+               const temp=json.main.temp-273;
+               const finalTemp=temp.toLocaleString("en-US", { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+
+               console.log(temp);
+               document.getElementById("temp").innerText=finalTemp;
+               document.getElementById("city").innerText=CityfinalName;
+               const Overcast=json.weather[0].main;
+               document.getElementById("weather").innerText=Overcast;
+
+           })
+       })
+
+   })
+
+</script>
+</body>
+
+</html>
